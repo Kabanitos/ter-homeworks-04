@@ -1,14 +1,8 @@
-#создаем облачную сеть
-resource "yandex_vpc_network" "develop" {
-  name = var.vpc
-}
-
-#создаем подсеть
-resource "yandex_vpc_subnet" "develop_a" {
-  name           = var.vpc_sub.name
-  zone           = var.varprovider.zone
-  network_id     = yandex_vpc_network.develop.id
-  v4_cidr_blocks = [var.vpc_sub.v4_cidr_blocks]
+module "network" {
+  source = "./module/network"
+  zone = var.varprovider.zone
+  env_name       = var.test-vm.env_name
+  cidr_block = var.vpc_sub.v4_cidr_blocks
 }
 
 
@@ -16,9 +10,9 @@ resource "yandex_vpc_subnet" "develop_a" {
 module "test-vm" {
   source         = "git::https://github.com/udjin10/yandex_compute_instance.git?ref=main"
   env_name       = var.test-vm.env_name
-  network_id     = yandex_vpc_network.develop.id
+  network_id     = module.network.vpc_network.id
   subnet_zones   = [var.varprovider.zone]
-  subnet_ids     = [yandex_vpc_subnet.develop_a.id]
+  subnet_ids     = [module.network.vpc_subnet.id]
   instance_name  = var.test-vm.instance_name
   image_family   = var.os
   public_ip      = var.test-vm.public_ip
@@ -37,9 +31,9 @@ module "test-vm" {
 module "example-vm" {
   source         = "git::https://github.com/udjin10/yandex_compute_instance.git?ref=main"
   env_name       = var.example-vm.env_name
-  network_id     = yandex_vpc_network.develop.id
+  network_id     = module.network.vpc_network.id
   subnet_zones   = [var.varprovider.zone]
-  subnet_ids     = [yandex_vpc_subnet.develop_a.id]
+  subnet_ids     = [module.network.vpc_subnet.id]
   instance_name  = var.example-vm.instance_name
   image_family   = var.os
   public_ip      = var.example-vm.public_ip
