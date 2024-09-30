@@ -82,3 +82,37 @@ module "vpc_dev" {
 3. Полностью удалите из стейта модуль vm.
 4. Импортируйте всё обратно. Проверьте terraform plan. Значимых(!!) изменений быть не должно.
 Приложите список выполненных команд и скриншоты процессы.
+
+### Ответ
+
+``` terraform state list ```
+
+![Сркрин6](img/img6.png)
+
+``` terraform state rm module.network```
+
+![Скрин7](img/img7.png)
+
+``` terraform state rm module.example-vm module.test-vm ```
+
+![Скрин8](img/img8.png)
+
+``` terraform import module.network.yandex_vpc_network.test enpgar50bkvbg3r7bduk ```
+
+![Скрин9](img/img9.png)
+
+``` terraform import module.network.yandex_vpc_subnet.sub-test e9b2n8ivu9a1oe9h6hf5 ```
+
+![Скрин10](img/img10.png)
+
+```terraform import module.test-vm.yandex_compute_instance.vm[0] fhm3isve52gcvir5il2s```
+
+![Скрин11](img/img11.png)
+
+```terraform import module.example-vm.yandex_compute_instance.vm[0] fhmij7dgemcf3se014```
+
+![Скрин12](img/img12.png)
+
+```terraform plan```
+
+![Скрин13](img/img13.png)

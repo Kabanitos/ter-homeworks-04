@@ -10,9 +10,9 @@ module "network" {
 module "test-vm" {
   source         = "git::https://github.com/udjin10/yandex_compute_instance.git?ref=main"
   env_name       = var.test-vm.env_name
-  network_id     = module.network.vpc_network.id
+  network_id     = module.network.vpc_id
   subnet_zones   = [var.varprovider.zone]
-  subnet_ids     = [module.network.vpc_subnet.id]
+  subnet_ids     = [module.network.subnet_id]
   instance_name  = var.test-vm.instance_name
   image_family   = var.os
   public_ip      = var.test-vm.public_ip
@@ -31,9 +31,9 @@ module "test-vm" {
 module "example-vm" {
   source         = "git::https://github.com/udjin10/yandex_compute_instance.git?ref=main"
   env_name       = var.example-vm.env_name
-  network_id     = module.network.vpc_network.id
+  network_id     = module.network.vpc_id
   subnet_zones   = [var.varprovider.zone]
-  subnet_ids     = [module.network.vpc_subnet.id]
+  subnet_ids     = [module.network.subnet_id]
   instance_name  = var.example-vm.instance_name
   image_family   = var.os
   public_ip      = var.example-vm.public_ip

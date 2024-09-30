@@ -8,3 +8,10 @@ output "vpc-subnet-info" {
   
 }
 
+output "subnet_id" {
+   value = yandex_vpc_subnet.sub-test.id
+}
+
+output "vpc_id" {
+   value = yandex_vpc_network.test.id
+}
